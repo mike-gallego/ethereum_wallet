@@ -1,0 +1,52 @@
+name: ehtereum_wallet
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  equatable: ^1.2.5
+  flutter_bloc: ^6.1.1
+  bloc: ^6.1.1
+  shimmer: ^1.1.2
+  showcaseview: ^0.1.6
+  offline: ^0.0.1
+  pinput: ^1.0.0
+  timelines: ^0.0.2+1
+  lottie: ^0.7.0+1
+  flutter_neumorphic: ^3.0.3
+  pandabar: ^0.1.1
+  flutter_icons: ^1.1.0
+  date_format: ^1.0.9
+  google_fonts: ^1.1.2
+  wave: ^0.1.0
+  flutter_flip_view: ^1.0.3
+  barcode_widget: ^1.5.0
+  flutter_barcode_scanner: ^1.0.1
+  shared_preferences: ^0.5.12+4
+  clipboard: ^0.1.2+8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+
+  uses-material-design: true
+
+  # assets:
+  #   - assets/background.jpg
+
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
