@@ -1,11 +1,11 @@
-import 'package:ehtereum_wallet/blocs/hide/bloc/hide_bloc.dart';
-import 'package:ehtereum_wallet/screens/dashboard/dashboard_screen.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/blocs/theme/bloc/theme_bloc.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/blocs/hide/bloc/hide_bloc.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'blocs/theme/bloc/theme_bloc.dart';
 
 void main() {
   runApp(MyApp());

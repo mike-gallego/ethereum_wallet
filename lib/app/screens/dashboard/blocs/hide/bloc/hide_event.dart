@@ -15,3 +15,5 @@ class ShowPrivateKey extends HideEvent {
   List<Object> get props => [{this.isBlur}];
 
 }
+
+
