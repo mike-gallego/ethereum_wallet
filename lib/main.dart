@@ -1,3 +1,4 @@
+import 'package:ehtereum_wallet/app/screens/dashboard/blocs/bloc/page_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/blocs/theme/bloc/theme_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/blocs/hide/bloc/hide_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/dashboard_screen.dart';
@@ -22,13 +23,17 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => HideBloc(HideState(isBlur: true,))
         ),
+        BlocProvider(
+          create: (context) => PageBloc(PageState(pageID: 'Wallet')),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(builder: _buildTheme),
     );
   }
 
   Future<SharedPreferences> _getSharedPref() async {
-    return await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
+    return prefs;
   }
 
   Widget _buildTheme(BuildContext context, ThemeState state) {

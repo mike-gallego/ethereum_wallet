@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:ehtereum_wallet/app/screens/dashboard/blocs/bloc/page_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/blocs/theme/bloc/theme_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/views/wallet_view/wallet_view.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pandabar/pandabar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class DashboardScreen extends StatelessWidget {
   final bool isLight;
   final SharedPreferences prefs;
@@ -19,13 +19,48 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(context),
-      body: WalletView(
-        prefs: prefs,
-      ),
-      bottomNavigationBar: _buildBottomNavBar(context),
+    return BlocBuilder<PageBloc, PageState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: _buildAppBar(context),
+          body: getView(state.pageID),
+          bottomNavigationBar: _buildBottomNavBar(context),
+        );
+      },
     );
+  }
+
+  Widget getView(String id) {
+    switch (id) {
+      case 'Wallet':
+        return WalletView(
+          prefs: prefs,
+        );
+        break;
+      case 'Feed/Extract':
+        return Container(
+          color: Colors.red,
+        );
+        break;
+      case 'Send':
+        return Container(
+          color: Colors.green,
+        );
+        break;
+      case 'Lend/Borrow':
+        return Container(
+          color: Colors.blue,
+        );
+        break;
+      case 'Lottery':
+        return Container(
+          color: Colors.purple,
+        );
+        break;
+      default:
+        return Container(color: Colors.grey);
+        break;
+    }
   }
 
   Widget _buildAppBar(BuildContext context) {
@@ -100,13 +135,15 @@ class DashboardScreen extends StatelessWidget {
       fabIcon: Icon(
         MaterialCommunityIcons.cube_send,
         size: 24,
-        color: BlocProvider.of<ThemeBloc>(context).state.isLight ? Colors.grey[700] : NeumorphicColors.decorationMaxWhiteColor,
+        color: BlocProvider.of<ThemeBloc>(context).state.isLight
+            ? Colors.grey[700]
+            : NeumorphicColors.decorationMaxWhiteColor,
       ),
       buttonData: [
         PandaBarButtonData(
             id: 'Wallet', icon: MaterialCommunityIcons.wallet, title: 'Wallet'),
         PandaBarButtonData(
-            id: 'Deposit/Withdraw',
+            id: 'Feed/Extract',
             icon: MaterialCommunityIcons.ethereum,
             title: 'Feed/Extract'),
         PandaBarButtonData(
@@ -118,8 +155,12 @@ class DashboardScreen extends StatelessWidget {
             icon: MaterialCommunityIcons.dice_multiple,
             title: 'Lottery'),
       ],
-      onChange: (id) {},
-      onFabButtonPressed: () {},
+      onChange: (id) {
+        BlocProvider.of<PageBloc>(context).add(SwitchPage(pageID: id));
+      },
+      onFabButtonPressed: () {
+        BlocProvider.of<PageBloc>(context).add(SwitchPage(pageID: 'Send'));
+      },
     );
   }
 }
