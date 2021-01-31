@@ -20,7 +20,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
     TransactionEvent event,
   ) async* {
     if (event is SubmitTransaction) {
+      debugPrint('transaction started');
       BlocProvider.of<TimelineBloc>(state.context).add(NextStep(index: 0));
+      await Future.delayed(const Duration(seconds: 2), () => "sending credentials...");
       final _rpcUrl = "http://192.168.0.23:7545";
       final _wsUrl = "ws://192.168.0.23:7545/";
       final _privateKey =
@@ -37,6 +39,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       
       yield(TransactionState(senderAddress: senderAddress.toString(), receiverAddress: event.receiverAddress, amount: event.amount, transactionHash: state.transactionHash, context: state.context));
       BlocProvider.of<TimelineBloc>(state.context).add(NextStep(index: 1));
+      await Future.delayed(const Duration(seconds: 5), () => "received credentials!");
       final result = await ethClient.sendTransaction(
         credentials,
         Transaction(
@@ -50,6 +53,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       );
       yield(TransactionState(senderAddress: senderAddress.toString(), receiverAddress: event.receiverAddress, amount: event.amount, transactionHash: result, context: state.context));
       BlocProvider.of<TimelineBloc>(state.context).add(NextStep(index: 4));
+      debugPrint('completed transaction!');
+    } else if (event is ResetHash) {
+      yield(TransactionState(amount: '', context: state.context, receiverAddress: '', senderAddress: '', transactionHash: ''));
     }
   }
 }

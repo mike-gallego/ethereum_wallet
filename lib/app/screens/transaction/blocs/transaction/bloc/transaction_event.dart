@@ -13,3 +13,8 @@ class SubmitTransaction extends TransactionEvent {
 
   List<Object> get props => [{this.privateKey, this.receiverAddress, this.amount}];
 }
+
+class ResetHash extends TransactionEvent {
+
+  List<Object> get props => [{}];
+}
