@@ -1,8 +1,9 @@
 import 'dart:ui';
 
-import 'package:ehtereum_wallet/app/screens/dashboard/blocs/bloc/page_bloc.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/blocs/page/page_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/blocs/theme/bloc/theme_bloc.dart';
-import 'package:ehtereum_wallet/app/screens/dashboard/views/wallet_view/wallet_view.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/views//wallet_view.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/views/send_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
@@ -38,14 +39,10 @@ class DashboardScreen extends StatelessWidget {
         );
         break;
       case 'Feed/Extract':
-        return Container(
-          color: Colors.red,
-        );
+        return Container(color: Colors.red);
         break;
       case 'Send':
-        return Container(
-          color: Colors.green,
-        );
+        return SendView(prefs: prefs,);
         break;
       case 'Lend/Borrow':
         return Container(
@@ -66,6 +63,7 @@ class DashboardScreen extends StatelessWidget {
   Widget _buildAppBar(BuildContext context) {
     return NeumorphicAppBar(
       centerTitle: true,
+      automaticallyImplyLeading: false,
       title: Text(
         'Ethereum Wallet',
         style: GoogleFonts.ibmPlexMono(
@@ -126,7 +124,7 @@ class DashboardScreen extends StatelessWidget {
           ? Colors.grey[800]
           : Colors.blueGrey[400],
       buttonColor: Colors.grey[300],
-      buttonSelectedColor: BlocProvider.of<ThemeBloc>(context).state.isLight
+      buttonSelectedColor: BlocProvider.of<PageBloc>(context).state.pageID == 'Send' ? Colors.grey[300] : BlocProvider.of<ThemeBloc>(context).state.isLight
           ? NeumorphicColors.decorationMaxWhiteColor
           : Colors.blueGrey[800],
       fabColors: BlocProvider.of<ThemeBloc>(context).state.isLight
@@ -135,7 +133,7 @@ class DashboardScreen extends StatelessWidget {
       fabIcon: Icon(
         MaterialCommunityIcons.cube_send,
         size: 24,
-        color: BlocProvider.of<ThemeBloc>(context).state.isLight
+        color: BlocProvider.of<PageBloc>(context).state.pageID == 'Send' ? Colors.blueGrey[800] :  BlocProvider.of<ThemeBloc>(context).state.isLight
             ? Colors.grey[700]
             : NeumorphicColors.decorationMaxWhiteColor,
       ),

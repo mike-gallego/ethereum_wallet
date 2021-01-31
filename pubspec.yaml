@@ -32,6 +32,10 @@ dependencies:
   flutter_barcode_scanner: ^1.0.1
   shared_preferences: ^0.5.12+4
   clipboard: ^0.1.2+8
+  dio: ^3.0.10
+  web3dart: ^1.2.3
+  http: ^0.12.2
+  web_socket_channel: ^1.2.0
 
 dev_dependencies:
   flutter_test:
@@ -41,8 +45,10 @@ flutter:
 
   uses-material-design: true
 
-  # assets:
-  #   - assets/background.jpg
+  assets:
+    -  assets/qr_code_animation.json
+    -  assets/splash_icon.json
+    -  assets/coin.png
 
   # fonts:
   #   - family: Schyler

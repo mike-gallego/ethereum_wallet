@@ -1,7 +1,11 @@
-import 'package:ehtereum_wallet/app/screens/dashboard/blocs/bloc/page_bloc.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/blocs/page/page_bloc.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/blocs/text/text_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/blocs/theme/bloc/theme_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/blocs/hide/bloc/hide_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/dashboard_screen.dart';
+import 'package:ehtereum_wallet/app/screens/placeholders/splash_screen.dart';
+import 'package:ehtereum_wallet/app/screens/transaction/blocs/timeline/bloc/timeline_bloc.dart';
+import 'package:ehtereum_wallet/app/screens/transaction/blocs/transaction/bloc/transaction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
@@ -26,6 +30,15 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => PageBloc(PageState(pageID: 'Wallet')),
         ),
+        BlocProvider(
+          create: (context) => TextBloc(TextState(address: '', amount: '', message: '')),
+        ),
+        BlocProvider(
+          create: (context) => TimelineBloc(TimelineState(index: 0)),
+        ),
+        BlocProvider(
+          create: (context) => TransactionBloc(TransactionState(amount: '', transactionHash: '', receiverAddress: '', senderAddress: '', context: context)),
+        )
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(builder: _buildTheme),
     );
@@ -45,9 +58,27 @@ class MyApp extends StatelessWidget {
           case ConnectionState.none:
           case ConnectionState.waiting:
           case ConnectionState.active:
-            return Container(
-              child: Center(
-                child: CircularProgressIndicator(),
+            return NeumorphicApp(
+              home: SplashScreen(),
+              debugShowCheckedModeBanner: false,
+              title: 'Ethereum Wallet',
+              themeMode: state.isLight ? ThemeMode.light : ThemeMode.dark,
+              theme: NeumorphicThemeData(
+                textTheme: GoogleFonts.ibmPlexMonoTextTheme(
+                    Theme.of(context).textTheme),
+                baseColor:
+                    NeumorphicColors.embossMaxWhiteColor, // Color(0xFFFFFFFF),
+                intensity: 0.8,
+                appBarTheme: NeumorphicAppBarThemeData(),
+                lightSource: LightSource.topLeft,
+                depth: 10,
+              ),
+              darkTheme: NeumorphicThemeData.dark(
+                baseColor: NeumorphicColors.darkVariant,
+                textTheme: GoogleFonts.ibmPlexMonoTextTheme(
+                    Theme.of(context).textTheme), // Color(0xFFFFFFFF),
+                lightSource: LightSource.topLeft,
+                depth: 10,
               ),
             );
             break;
