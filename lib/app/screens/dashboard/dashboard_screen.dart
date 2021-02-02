@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:ehtereum_wallet/app/screens/dashboard/blocs/page/page_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/blocs/theme/bloc/theme_bloc.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/views//wallet_view.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/views/feed_view.dart';
+import 'package:ehtereum_wallet/app/screens/dashboard/views/lottery_view.dart';
 import 'package:ehtereum_wallet/app/screens/dashboard/views/send_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,14 +26,14 @@ class DashboardScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           appBar: _buildAppBar(context),
-          body: getView(state.pageID),
+          body: getView(state.pageID, context),
           bottomNavigationBar: _buildBottomNavBar(context),
         );
       },
     );
   }
 
-  Widget getView(String id) {
+  Widget getView(String id, context) {
     switch (id) {
       case 'Wallet':
         return WalletView(
@@ -39,20 +41,32 @@ class DashboardScreen extends StatelessWidget {
         );
         break;
       case 'Feed/Extract':
-        return Container(color: Colors.red);
+        return FeedView();
         break;
       case 'Send':
-        return SendView(prefs: prefs,);
+        return SendView(
+          prefs: prefs,
+        );
         break;
       case 'Lend/Borrow':
         return Container(
-          color: Colors.blue,
+          child: Center(
+            child: Text(
+              'Coming soon',
+              style: GoogleFonts.ibmPlexMono(
+                textStyle: TextStyle(
+                    fontSize: 16.0,
+                    color: BlocProvider.of<ThemeBloc>(context).state.isLight
+                        ? NeumorphicColors.decorationMaxWhiteColor
+                        : NeumorphicColors.embossMaxWhiteColor,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
         );
         break;
       case 'Lottery':
-        return Container(
-          color: Colors.purple,
-        );
+        return LotteryView();
         break;
       default:
         return Container(color: Colors.grey);
@@ -124,18 +138,23 @@ class DashboardScreen extends StatelessWidget {
           ? Colors.grey[800]
           : Colors.blueGrey[400],
       buttonColor: Colors.grey[300],
-      buttonSelectedColor: BlocProvider.of<PageBloc>(context).state.pageID == 'Send' ? Colors.grey[300] : BlocProvider.of<ThemeBloc>(context).state.isLight
-          ? NeumorphicColors.decorationMaxWhiteColor
-          : Colors.blueGrey[800],
+      buttonSelectedColor:
+          BlocProvider.of<PageBloc>(context).state.pageID == 'Send'
+              ? Colors.grey[300]
+              : BlocProvider.of<ThemeBloc>(context).state.isLight
+                  ? NeumorphicColors.decorationMaxWhiteColor
+                  : Colors.blueGrey[800],
       fabColors: BlocProvider.of<ThemeBloc>(context).state.isLight
           ? [NeumorphicColors.background, NeumorphicColors.background]
           : [NeumorphicColors.darkVariant, NeumorphicColors.darkVariant],
       fabIcon: Icon(
         MaterialCommunityIcons.cube_send,
         size: 24,
-        color: BlocProvider.of<PageBloc>(context).state.pageID == 'Send' ? Colors.blueGrey[800] :  BlocProvider.of<ThemeBloc>(context).state.isLight
-            ? Colors.grey[700]
-            : NeumorphicColors.decorationMaxWhiteColor,
+        color: BlocProvider.of<PageBloc>(context).state.pageID == 'Send'
+            ? Colors.blueGrey[800]
+            : BlocProvider.of<ThemeBloc>(context).state.isLight
+                ? Colors.grey[700]
+                : NeumorphicColors.decorationMaxWhiteColor,
       ),
       buttonData: [
         PandaBarButtonData(

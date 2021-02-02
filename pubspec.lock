@@ -518,6 +518,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0-nullsafety.3"
+  virtual_keyboard:
+    dependency: "direct main"
+    description:
+      name: virtual_keyboard
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.4"
   wave:
     dependency: "direct main"
     description:
